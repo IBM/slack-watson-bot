@@ -1,0 +1,25 @@
+This product includes software originally developed by IBM Corporation
+Copyright 2017 IBM Corp.
+
+
+The following Node.js modules are used but not bundled with this project.
+
+botkit
+https://github.com/howdyai/botkit
+https://www.npmjs.com/package/botkit
+MIT: https://github.com/howdyai/botkit/blob/master/LICENSE.md
+
+botkit-middleware-watson
+https://github.com/watson-developer-cloud/botkit-middleware
+https://www.npmjs.com/package/botkit-middleware-watson
+ALv2: https://github.com/watson-developer-cloud/botkit-middleware/blob/master/LICENSE
+
+dotenv
+https://github.com/motdotla/dotenv
+https://www.npmjs.com/package/dotenv
+BSD 2-clause: https://github.com/motdotla/dotenv/blob/master/LICENSE
+
+express
+https://github.com/expressjs/express
+https://www.npmjs.com/package/express
+MIT: https://github.com/expressjs/express/blob/master/LICENSE
