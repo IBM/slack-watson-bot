@@ -27,8 +27,7 @@ In addition to the Slack client id and secret additional configuration needs to 
 * [oauth](https://github.com/howdyai/botkit/blob/master/docs/slack-events-api.md#3-configure-oauth)
 * [bot user](https://github.com/howdyai/botkit/blob/master/docs/slack-events-api.md#4-add-a-bot-user)
 * [interactive messages](https://github.com/howdyai/botkit/blob/master/docs/slack-events-api.md#5-set-up-interactive-messages)
-* [event subscriptions] (
-https://github.com/howdyai/botkit/blob/master/docs/slack-events-api.md#6-set-up-event-subscriptions)
+* [event subscriptions](https://github.com/howdyai/botkit/blob/master/docs/slack-events-api.md#6-set-up-event-subscriptions)
 
 The Watson [workspace](https://github.com/nheidloff/slack-watson-bot/blob/master/workspace.json) needs to be [imported](https://www.ibm.com/watson/developercloud/doc/conversation/configure-workspace.html#creating-workspaces) into the Conversation service.
 
