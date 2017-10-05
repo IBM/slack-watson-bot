@@ -3,7 +3,7 @@ Simple Slack Bot example using IBM Watson and Botkit
 
 This [project](https://github.com/nheidloff/slack-watson-bot) contains sample code that shows how to build a chatbot for Slack that leverages [IBM Watson Conversation](https://www.ibm.com/watson/developercloud/conversation.html) and [Botkit](https://github.com/howdyai/botkit).
 
-In order to provide the best possible user experience [Slack buttons](https://api.slack.com/docs/message-buttons) are used that can be defined via the [Slack Message Builder](https://api.slack.com/docs/messages/builder). The definition of the Slack messages are stored in the [dialog definition](https://raw.githubusercontent.com/nheidloff/slack-watson-bot/master/screenshots/workspace1.png).
+In order to provide the best possible user experience [Slack buttons](https://api.slack.com/docs/message-buttons) are used that can be defined via the [Slack Message Builder](https://api.slack.com/docs/messages/builder). The definitions of the Slack messages are stored in the [dialog definition](https://raw.githubusercontent.com/nheidloff/slack-watson-bot/master/screenshots/workspace1.png).
 
 The project also demostrates how to invoke REST APIs, for example to find current weather conditions via [Weather Company Data](https://console.bluemix.net/catalog/services/weather-company-data). In order to do this, nodes in the dialog are marked as 'action nodes' via [context information](https://raw.githubusercontent.com/nheidloff/slack-watson-bot/master/screenshots/workspace2.png). The implementation of the actions is done in the [Node.js application](https://github.com/nheidloff/slack-watson-bot/blob/master/watson-slack.js#L55-L92).
 
@@ -27,6 +27,8 @@ In addition to the Slack client id and secret additional configuration needs to 
 * [oauth](https://github.com/howdyai/botkit/blob/master/docs/slack-events-api.md#3-configure-oauth)
 * [bot user](https://github.com/howdyai/botkit/blob/master/docs/slack-events-api.md#4-add-a-bot-user)
 * [interactive messages](https://github.com/howdyai/botkit/blob/master/docs/slack-events-api.md#5-set-up-interactive-messages)
+* [event subscriptions] (
+https://github.com/howdyai/botkit/blob/master/docs/slack-events-api.md#6-set-up-event-subscriptions)
 
 The Watson [workspace](https://github.com/nheidloff/slack-watson-bot/blob/master/workspace.json) needs to be [imported](https://www.ibm.com/watson/developercloud/doc/conversation/configure-workspace.html#creating-workspaces) into the Conversation service.
 

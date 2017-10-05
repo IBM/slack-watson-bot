@@ -54,11 +54,12 @@ function trackBot(bot) {
 
 function invokeAction(watsonDataOutput, bot, message) {
     let actionName = watsonDataOutput.context.action.name;
+    //console.log('actionName: ' + actionName)
 
     switch (actionName) {
         case 'lookupWeather':
             lookupWeather(watsonDataOutput, bot, message);
-            break;
+            break;        
         default:
             bot.reply(message, "Sorry, I cannot execute what you've asked me to do");
     }
@@ -67,6 +68,7 @@ function invokeAction(watsonDataOutput, bot, message) {
 function lookupWeather(watsonDataOutput, bot, message) {
     let coordinates;
     let location = watsonDataOutput.context.action.location;
+    //console.log('location: ' + location)
 
     switch (location) {
         case 'Munich':
@@ -91,7 +93,7 @@ function lookupWeather(watsonDataOutput, bot, message) {
     })
 }
 
-function handleWatsonResponse(bot, message) {
+function handleWatsonResponse(bot, message) {   
     let customSlackMessage = false;
     let actionToBeInvoked = false;
     if (message.watsonData) {
@@ -115,7 +117,7 @@ function handleWatsonResponse(bot, message) {
             bot.reply(message, message.watsonData.output.context.slack);
         }
         else {
-            bot.reply(message, message.watsonData.output.text.join('\n'));
+            bot.reply(message, message.watsonData.output.text[0]);
         }
     }
 }
