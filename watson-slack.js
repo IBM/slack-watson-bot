@@ -26,18 +26,17 @@ var middleware = require('botkit-middleware-watson')({
 });
 
 var controller = Botkit.slackbot({
-    json_file_store: './db_slackbutton_bot/',
-}).configureSlackApp(
-    {
-        clientId: process.env.SLACK_CLIENT_ID,
-        clientSecret: process.env.SLACK_CLIENT_SECRET,
-        scopes: ['bot'],
-    }
+        json_file_store: './db_slackbutton_bot/',
+    }).configureSlackApp(
+        {
+            clientId: process.env.SLACK_CLIENT_ID,
+            clientSecret: process.env.SLACK_CLIENT_SECRET,            
+            scopes: ['bot']
+        }
     );
 
 controller.setupWebserver(3000, function (err, webserver) {
     controller.createWebhookEndpoints(controller.webserver);
-
     controller.createOauthEndpoints(controller.webserver, function (err, req, res) {
         if (err) {
             res.status(500).send('ERROR: ' + err);
@@ -54,12 +53,18 @@ function trackBot(bot) {
 
 function invokeAction(watsonDataOutput, bot, message) {
     let actionName = watsonDataOutput.context.action.name;
-    //console.log('actionName: ' + actionName)
 
     switch (actionName) {
         case 'lookupWeather':
             lookupWeather(watsonDataOutput, bot, message);
-            break;        
+            break; 
+        /*
+        case 'get-time':
+            let answer = "It's " + new Date().getHours() + " o'clock and " 
+                + new Date().getMinutes() + " minutes";
+            bot.reply(message, answer);
+            break;       
+        */
         default:
             bot.reply(message, "Sorry, I cannot execute what you've asked me to do");
     }
@@ -68,7 +73,6 @@ function invokeAction(watsonDataOutput, bot, message) {
 function lookupWeather(watsonDataOutput, bot, message) {
     let coordinates;
     let location = watsonDataOutput.context.action.location;
-    //console.log('location: ' + location)
 
     switch (location) {
         case 'Munich':
@@ -122,16 +126,29 @@ function handleWatsonResponse(bot, message) {
     }
 }
 
+controller.on('direct_message,direct_mention,mention', function (bot, message) {
+    middleware.interpret(bot, message, function (err) {
+        if (!err) {
+            handleWatsonResponse(bot, message);
+        }
+        else {            
+            bot.reply(message, "I'm sorry, but for technical reasons I can't respond to your message");
+        }
+    });
+});
+
 controller.on('interactive_message_callback', function (bot, message) {
     middleware.interpret(bot, message, function (err) {
         if (!err) {
             handleWatsonResponse(bot, message);
         }
+        else {            
+            bot.reply(message, "I'm sorry, but for technical reasons I can't respond to your message");
+        }
     });
 });
 
 controller.on('create_bot', function (bot, config) {
-
     if (_bots[bot.config.token]) {
         // already online! do nothing.
     } else {
@@ -159,19 +176,6 @@ controller.on('rtm_open', function (bot) {
 controller.on('rtm_close', function (bot) {
     console.log('** The RTM api just closed');
     // you may want to attempt to re-open
-});
-
-controller.hears('^stop', 'direct_message', function (bot, message) {
-    bot.reply(message, 'Goodbye');
-    bot.rtm.close();
-});
-
-controller.on('direct_message,direct_mention,mention', function (bot, message) {
-    middleware.interpret(bot, message, function (err) {
-        if (!err) {
-            handleWatsonResponse(bot, message);
-        }
-    });
 });
 
 controller.storage.teams.all(function (err, teams) {
