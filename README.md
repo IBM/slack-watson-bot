@@ -7,6 +7,10 @@ In order to provide the best possible user experience [Slack buttons](https://ap
 
 The project also demostrates how to invoke REST APIs, for example to find current weather conditions via [Weather Company Data](https://console.bluemix.net/catalog/services/weather-company-data). In order to do this, nodes in the dialog are marked as 'action nodes' via [context information](https://raw.githubusercontent.com/nheidloff/slack-watson-bot/master/screenshots/workspace2.png). The implementation of the actions is done in the [Node.js application](https://github.com/nheidloff/slack-watson-bot/blob/master/watson-slack.js#L55-L92).
 
+Check out the [presentation](https://www.slideshare.net/niklasheidloff/writing-slack-bots-in-javascript-80694351) for more details.
+
+[![Serverless Web Apps](https://github.com/nheidloff/slack-watson-bot/raw/master/screenshots/slides.png)](https://www.slideshare.net/niklasheidloff/writing-slack-bots-in-javascript-80694351)
+
 The screenshot shows a simple sample conversation.
 
 ![alt text](https://raw.githubusercontent.com/nheidloff/slack-watson-bot/master/screenshots/slack.png "Slack Bot")
