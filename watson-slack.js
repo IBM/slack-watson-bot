@@ -58,13 +58,13 @@ function invokeAction(watsonDataOutput, bot, message) {
         case 'lookupWeather':
             lookupWeather(watsonDataOutput, bot, message);
             break; 
-        /*
+        
         case 'get-time':
             let answer = "It's " + new Date().getHours() + " o'clock and " 
                 + new Date().getMinutes() + " minutes";
             bot.reply(message, answer);
             break;       
-        */
+        
         default:
             bot.reply(message, "Sorry, I cannot execute what you've asked me to do");
     }
@@ -126,18 +126,7 @@ function handleWatsonResponse(bot, message) {
     }
 }
 
-controller.on('direct_message,direct_mention,mention', function (bot, message) {
-    middleware.interpret(bot, message, function (err) {
-        if (!err) {
-            handleWatsonResponse(bot, message);
-        }
-        else {            
-            bot.reply(message, "I'm sorry, but for technical reasons I can't respond to your message");
-        }
-    });
-});
-
-controller.on('interactive_message_callback', function (bot, message) {
+controller.on('direct_message,direct_mention,mention,interactive_message_callback', function (bot, message) {
     middleware.interpret(bot, message, function (err) {
         if (!err) {
             handleWatsonResponse(bot, message);

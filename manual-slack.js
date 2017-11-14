@@ -36,13 +36,13 @@ controller.hears('hello', 'direct_mention,direct_message,mention', function (bot
     bot.reply(message, 'Howdy!');
 });
 
-controller.hears('tacos', 'direct_mention,direct_message,mention', function (bot, message) {
+controller.hears('weather', 'direct_mention,direct_message,mention', function (bot, message) {
     bot.startConversation(message, function (err, convo) {
-        convo.say('Oh boy, taco time!');
-        convo.ask('What type of taco do you want?', function (answer, convo) {
-            var taco_type = answer.text;
+        convo.say('Oh, you want to know the weather.');
+        convo.ask('In which city?', function (answer, convo) {
+            var city = answer.text;
             // do something with this answer!            
-            convo.say('YUMMMM!!!');
+            convo.say('Looking up weather information for ' + city);
             convo.next();
         });
     });
