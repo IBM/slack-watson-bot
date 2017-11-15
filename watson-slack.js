@@ -16,7 +16,7 @@
 
 var Botkit = require('botkit');
 require('dotenv').load();
-var request = require('request');
+var sharedCode = require('./handleWatsonResponse.js')();
 
 var middleware = require('botkit-middleware-watson')({
     username: process.env.CONVERSATION_USERNAME,
@@ -51,85 +51,10 @@ function trackBot(bot) {
     _bots[bot.config.token] = bot;
 }
 
-function invokeAction(watsonDataOutput, bot, message) {
-    let actionName = watsonDataOutput.context.action.name;
-
-    switch (actionName) {
-        case 'lookupWeather':
-            lookupWeather(watsonDataOutput, bot, message);
-            break; 
-        
-        case 'get-time':
-            let answer = "It's " + new Date().getHours() + " o'clock and " 
-                + new Date().getMinutes() + " minutes";
-            bot.reply(message, answer);
-            break;       
-        
-        default:
-            bot.reply(message, "Sorry, I cannot execute what you've asked me to do");
-    }
-}
-
-function lookupWeather(watsonDataOutput, bot, message) {
-    let coordinates;
-    let location = watsonDataOutput.context.action.location;
-
-    switch (location) {
-        case 'Munich':
-            coordinates = '48.13/11.58';
-            break;
-        case 'Hamburg':
-            coordinates = '53.55/9.99';
-            break;
-        default:
-            coordinates = '52.52/13.38'; // Berlin
-    }
-
-    let weatherUsername = process.env.WEATHER_USERNAME;
-    let weatherPassword = process.env.WEATHER_PASSWORD;
-    let weatherUrl = 'https://' + weatherUsername + ':' + weatherPassword + '@twcservice.mybluemix.net:443/api/weather/v1/geocode/' + coordinates + '/observations.json?units=m&language=en-US';
-
-    request(weatherUrl, function (error, response, body) {
-        var info = JSON.parse(body);
-        let answer = "The current temperature in " + info.observation.obs_name
-            + " is " + info.observation.temp + " °C"
-        bot.reply(message, answer);
-    })
-}
-
-function handleWatsonResponse(bot, message) {   
-    let customSlackMessage = false;
-    let actionToBeInvoked = false;
-    if (message.watsonData) {
-        if (message.watsonData.output) {
-            if (message.watsonData.output.context) {
-                if (message.watsonData.output.context.slack) {
-                    customSlackMessage = true;
-                }
-                if (message.watsonData.output.context.action) {
-                    actionToBeInvoked = true;
-                }
-            }
-        }
-    }
-    if (actionToBeInvoked == true) {
-        bot.reply(message, message.watsonData.output.text.join('\n'));
-        invokeAction(message.watsonData.output, bot, message);
-    }
-    else {
-        if (customSlackMessage == true) {
-            bot.reply(message, message.watsonData.output.context.slack);
-        }
-        else {
-            bot.reply(message, message.watsonData.output.text[0]);
-        }
-    }
-}
-
 controller.on('direct_message,direct_mention,mention,interactive_message_callback', function (bot, message) {
     middleware.interpret(bot, message, function (err) {
         if (!err) {
-            handleWatsonResponse(bot, message);
+            sharedCode.handleWatsonResponse(bot, message, 'slack');
         }
         else {            
             bot.reply(message, "I'm sorry, but for technical reasons I can't respond to your message");
